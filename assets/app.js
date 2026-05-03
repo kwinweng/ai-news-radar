@@ -11,6 +11,7 @@ const state = {
   allDataUrl: "data/latest-24h-all.json",
   allDataPromise: null,
   siteFilter: "",
+  categoryFilter: "",
   query: "",
   mode: "ai",
   waytoagiMode: "today",
@@ -22,6 +23,8 @@ const state = {
 const statsEl = document.getElementById("stats");
 const siteSelectEl = document.getElementById("siteSelect");
 const sitePillsEl = document.getElementById("sitePills");
+const categorySelectEl = document.getElementById("categorySelect");
+const categoryPillsEl = document.getElementById("categoryPills");
 const newsListEl = document.getElementById("newsList");
 const updatedAtEl = document.getElementById("updatedAt");
 const searchInputEl = document.getElementById("searchInput");
@@ -59,6 +62,18 @@ const SOURCE_KINDS = {
   newsnow: { label: "聚合", tone: "aggregate" },
 };
 
+const BUSINESS_CATEGORIES = [
+  { id: "models_platforms", label: "模型与平台", keywords: ["gpt", "claude", "gemini", "deepseek", "qwen", "通义", "kimi", "openai", "anthropic", "deepmind", "model", "llm", "api", "agent platform", "模型", "大模型", "多模态", "推理模型", "微调"] },
+  { id: "case_playbooks", label: "案例玩法", keywords: ["案例", "玩法", "复盘", "实践", "best practice", "最佳实践", "case study", "playbook", "campaign", "活动", "品牌", "标杆", "落地", "应用案例", "客户案例", "use case"] },
+  { id: "growth_commercial", label: "增长与商业化", keywords: ["增长", "商业化", "获客", "留存", "转化", "付费", "变现", "plg", "私域", "社群", "渠道", "营销", "广告", "投放", "裂变", "复购", "gmv", "营收", "monetization", "growth", "retention", "conversion", "acquisition", "marketing", "sales"] },
+  { id: "tooling_ops", label: "工具生态", keywords: ["工具", "自动化", "工作流", "效率", "运营", "数据分析", "客服", "内容生产", "知识库", "表格", "文档", "插件", "扩展", "dashboard", "analytics", "workflow", "automation", "tool", "tools", "crm", "support", "notion", "slack", "zapier"] },
+  { id: "product_trends", label: "产品趋势", keywords: ["产品", "功能", "发布", "上线", "订阅", "定价", "浏览器", "搜索", "workspace", "app", "应用", "copilot", "assistant", "chatbot", "交互", "体验", "用户", "版本", "release", "launch", "pricing", "subscription", "feature"] },
+  { id: "industry_insight", label: "行业洞察", keywords: ["行业", "分析", "洞察", "趋势", "报告", "融资", "投资", "估值", "创业", "公司", "市场", "赛道", "竞争", "企业采用", "采用率", "forecast", "funding", "startup", "market", "analysis", "report", "enterprise adoption", "venture", "investment"] },
+  { id: "other", label: "其他信号", keywords: [] },
+];
+
+const BUSINESS_CATEGORY_BY_ID = new Map(BUSINESS_CATEGORIES.map((category) => [category.id, category]));
+
 function fmtNumber(n) {
   return new Intl.NumberFormat("zh-CN").format(n || 0);
 }
@@ -87,7 +102,7 @@ function fmtDate(iso) {
 
 function setStats(payload) {
   const cards = [
-    ["AI 信号", fmtNumber(payload.total_items)],
+    ["增长信号", fmtNumber(payload.total_items)],
     ["站点数", fmtNumber(payload.site_count)],
     ["来源分组", fmtNumber(payload.source_count)],
     ["归档", fmtNumber(payload.archive_total || 0)]
@@ -100,6 +115,26 @@ function setStats(payload) {
     node.innerHTML = `<div class="k">${k}</div><div class="v">${v}</div>`;
     statsEl.appendChild(node);
   });
+}
+
+function classifyBusinessCategory(item) {
+  if (item.business_category && BUSINESS_CATEGORY_BY_ID.has(item.business_category)) {
+    return BUSINESS_CATEGORY_BY_ID.get(item.business_category);
+  }
+  const hay = `${item.title || ""} ${item.title_zh || ""} ${item.title_en || ""} ${item.source || ""} ${item.site_name || ""} ${item.url || ""}`.toLowerCase();
+  for (const category of BUSINESS_CATEGORIES) {
+    if (category.id === "other") continue;
+    if (category.keywords.some((keyword) => hay.includes(keyword.toLowerCase()))) return category;
+  }
+  return BUSINESS_CATEGORY_BY_ID.get("other");
+}
+
+function categoryLabel(item) {
+  return item.business_category_label || classifyBusinessCategory(item).label;
+}
+
+function categoryId(item) {
+  return item.business_category || classifyBusinessCategory(item).id;
 }
 
 function sourceKind(siteId) {
@@ -232,6 +267,60 @@ function renderSiteFilters() {
   });
 }
 
+function categoryStats() {
+  const counts = new Map(BUSINESS_CATEGORIES.map((category) => [category.id, 0]));
+  modeItems().forEach((item) => {
+    counts.set(categoryId(item), (counts.get(categoryId(item)) || 0) + 1);
+  });
+  return BUSINESS_CATEGORIES.map((category) => ({
+    ...category,
+    count: counts.get(category.id) || 0,
+  }));
+}
+
+function renderCategoryFilters() {
+  const stats = categoryStats();
+
+  if (categorySelectEl) {
+    categorySelectEl.innerHTML = '<option value="">全部业务分类</option>';
+    stats.forEach((category) => {
+      const opt = document.createElement("option");
+      opt.value = category.id;
+      opt.textContent = `${category.label} (${fmtNumber(category.count)})`;
+      categorySelectEl.appendChild(opt);
+    });
+    categorySelectEl.value = state.categoryFilter;
+  }
+
+  if (!categoryPillsEl) return;
+  categoryPillsEl.innerHTML = "";
+  const allPill = document.createElement("button");
+  allPill.className = `category-pill ${state.categoryFilter === "" ? "active" : ""}`;
+  allPill.type = "button";
+  allPill.textContent = "全部";
+  allPill.onclick = () => {
+    state.categoryFilter = "";
+    renderModeSwitch();
+    renderCategoryFilters();
+    renderList();
+  };
+  categoryPillsEl.appendChild(allPill);
+
+  stats.forEach((category) => {
+    const btn = document.createElement("button");
+    btn.className = `category-pill ${state.categoryFilter === category.id ? "active" : ""}`;
+    btn.type = "button";
+    btn.textContent = `${category.label} ${fmtNumber(category.count)}`;
+    btn.onclick = () => {
+      state.categoryFilter = category.id;
+      renderModeSwitch();
+      renderCategoryFilters();
+      renderList();
+    };
+    categoryPillsEl.appendChild(btn);
+  });
+}
+
 function renderModeSwitch() {
   modeAiBtnEl.classList.toggle("active", state.mode === "ai");
   modeAllBtnEl.classList.toggle("active", state.mode === "all");
@@ -240,13 +329,17 @@ function renderModeSwitch() {
   if (allDedupeLabelEl) allDedupeLabelEl.textContent = state.allDedup ? "去重开" : "去重关";
   if (state.mode === "ai") {
     modeHintEl.textContent = `AI强相关 · ${fmtNumber(state.totalAi)} 条`;
-    if (listTitleEl) listTitleEl.textContent = "AI 信号流";
+    if (listTitleEl) listTitleEl.textContent = "AI 增长信号流";
   } else {
     const allCount = state.allDedup
       ? (state.totalAllMode || state.itemsAll.length)
       : (state.totalRaw || state.itemsAllRaw.length);
     modeHintEl.textContent = `全量 · ${state.allDedup ? "去重开" : "去重关"} · ${fmtNumber(allCount)} 条`;
-    if (listTitleEl) listTitleEl.textContent = "全量更新";
+    if (listTitleEl) listTitleEl.textContent = "全量增长雷达";
+  }
+  if (state.categoryFilter && listTitleEl) {
+    const category = BUSINESS_CATEGORY_BY_ID.get(state.categoryFilter);
+    if (category) listTitleEl.textContent = category.label;
   }
   renderAdvancedSummary();
 }
@@ -263,8 +356,9 @@ function getFilteredItems() {
   const q = state.query.trim().toLowerCase();
   return modeItems().filter((item) => {
     if (state.siteFilter && item.site_id !== state.siteFilter) return false;
+    if (state.categoryFilter && categoryId(item) !== state.categoryFilter) return false;
     if (!q) return true;
-    const hay = `${item.title || ""} ${item.title_zh || ""} ${item.title_en || ""} ${item.site_name || ""} ${item.source || ""}`.toLowerCase();
+    const hay = `${item.title || ""} ${item.title_zh || ""} ${item.title_en || ""} ${item.site_name || ""} ${item.source || ""} ${categoryLabel(item)}`.toLowerCase();
     return hay.includes(q);
   });
 }
@@ -272,6 +366,9 @@ function getFilteredItems() {
 function renderItemNode(item) {
   const node = itemTpl.content.firstElementChild.cloneNode(true);
   node.querySelector(".site").textContent = item.site_name;
+  const businessCategoryEl = node.querySelector(".business-category");
+  businessCategoryEl.textContent = categoryLabel(item);
+  businessCategoryEl.classList.add(`business-${categoryId(item)}`);
   const kind = sourceKind(item.site_id);
   const categoryEl = node.querySelector(".category");
   categoryEl.textContent = kind.label;
@@ -629,6 +726,7 @@ async function init() {
 
     setStats(payload);
     renderModeSwitch();
+    renderCategoryFilters();
     renderCoverageStrip();
     renderSiteFilters();
     renderList();
@@ -665,12 +763,23 @@ searchInputEl.addEventListener("input", (e) => {
 siteSelectEl.addEventListener("change", (e) => {
   state.siteFilter = e.target.value;
   renderSiteFilters();
+  renderCategoryFilters();
   renderList();
 });
+
+if (categorySelectEl) {
+  categorySelectEl.addEventListener("change", (e) => {
+    state.categoryFilter = e.target.value;
+    renderModeSwitch();
+    renderCategoryFilters();
+    renderList();
+  });
+}
 
 modeAiBtnEl.addEventListener("click", () => {
   state.mode = "ai";
   renderModeSwitch();
+  renderCategoryFilters();
   renderSiteFilters();
   renderList();
 });
@@ -685,6 +794,7 @@ modeAllBtnEl.addEventListener("click", async () => {
   newsListEl.appendChild(loading);
   try {
     await loadAllModeData();
+    renderCategoryFilters();
     renderSiteFilters();
     renderList();
   } catch (err) {
@@ -700,6 +810,7 @@ if (allDedupeToggleEl) {
   allDedupeToggleEl.addEventListener("change", (e) => {
     state.allDedup = Boolean(e.target.checked);
     renderModeSwitch();
+    renderCategoryFilters();
     renderSiteFilters();
     renderList();
   });
