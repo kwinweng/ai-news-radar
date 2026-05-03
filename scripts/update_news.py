@@ -2222,10 +2222,109 @@ EMAIL_RE = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 SECRET_LIKE_RE = re.compile(r"\b(sk-(?!hynix\b)[A-Za-z0-9_-]{12,}|(?:api[_-]?key|secret|token)=([^\s&]{6,}))\b", re.I)
 BROAD_AI_TERMS = {"agent", "模型", "推理"}
 
+BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
+    "models_platforms": {
+        "label": "模型与平台",
+        "keywords": [
+            "gpt", "gpt-", "claude", "gemini", "deepseek", "qwen", "通义", "kimi",
+            "openai", "anthropic", "deepmind", "model", "models", "llm", "api",
+            "agent platform", "agent平台", "模型", "大模型", "多模态", "推理模型",
+            "上下文", "token", "fine-tuning", "finetune", "微调", "平台更新",
+        ],
+    },
+    "product_trends": {
+        "label": "产品趋势",
+        "keywords": [
+            "产品", "功能", "发布", "上线", "订阅", "定价", "浏览器", "搜索",
+            "workspace", "app", "应用", "copilot", "assistant", "chatbot",
+            "交互", "体验", "用户", "版本", "release", "launch", "pricing",
+            "subscription", "feature", "features",
+        ],
+    },
+    "growth_commercial": {
+        "label": "增长与商业化",
+        "keywords": [
+            "增长", "商业化", "获客", "留存", "转化", "付费", "变现", "plg",
+            "私域", "社群", "渠道", "营销", "广告", "投放", "裂变", "复购",
+            "gmv", "营收", "monetization", "growth", "retention", "conversion",
+            "acquisition", "marketing", "sales",
+        ],
+    },
+    "industry_insight": {
+        "label": "行业洞察",
+        "keywords": [
+            "行业", "分析", "洞察", "趋势", "报告", "融资", "投资", "估值",
+            "创业", "公司", "市场", "赛道", "竞争", "企业采用", "采用率",
+            "forecast", "funding", "startup", "startups", "market", "analysis",
+            "report", "enterprise adoption", "venture", "investment",
+        ],
+    },
+    "tooling_ops": {
+        "label": "工具生态",
+        "keywords": [
+            "工具", "自动化", "工作流", "效率", "运营", "数据分析", "客服",
+            "内容生产", "知识库", "表格", "文档", "插件", "扩展", "dashboard",
+            "analytics", "workflow", "automation", "tool", "tools", "crm",
+            "support", "notion", "slack", "zapier",
+        ],
+    },
+    "case_playbooks": {
+        "label": "案例玩法",
+        "keywords": [
+            "案例", "玩法", "复盘", "实践", "best practice", "最佳实践",
+            "case study", "playbook", "campaign", "活动", "品牌", "标杆",
+            "落地", "应用案例", "客户案例", "use case", "usecase",
+        ],
+    },
+    "other": {
+        "label": "其他信号",
+        "keywords": [],
+    },
+}
+
+BUSINESS_CATEGORY_ORDER = (
+    "models_platforms",
+    "case_playbooks",
+    "growth_commercial",
+    "tooling_ops",
+    "product_trends",
+    "industry_insight",
+)
+
 
 def contains_any_keyword(haystack: str, keywords: list[str]) -> bool:
     h = haystack.lower()
     return any(k in h for k in keywords)
+
+
+def classify_business_category(record: dict[str, Any]) -> dict[str, str]:
+    text = " ".join(
+        str(record.get(key) or "")
+        for key in ("title", "title_zh", "title_en", "source", "site_name", "url")
+    ).lower()
+    for category_id in BUSINESS_CATEGORY_ORDER:
+        meta = BUSINESS_CATEGORIES[category_id]
+        for keyword in meta["keywords"]:
+            if keyword.lower() in text:
+                return {
+                    "business_category": category_id,
+                    "business_category_label": str(meta["label"]),
+                    "business_category_reason": f"matched:{keyword}",
+                }
+    return {
+        "business_category": "other",
+        "business_category_label": str(BUSINESS_CATEGORIES["other"]["label"]),
+        "business_category_reason": "fallback",
+    }
+
+
+def add_business_category_fields(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
+    for item in items:
+        enriched = dict(item)
+        enriched.update(classify_business_category(enriched))
+        out.append(enriched)
+    return out
 
 
 def contains_meaningful_ai_signal(haystack: str) -> bool:
@@ -2604,6 +2703,8 @@ def main() -> int:
         title_cache,
         max_new_translations=max(0, args.translate_max_new),
     )
+    latest_items = add_business_category_fields(latest_items)
+    latest_items_all = add_business_category_fields(latest_items_all)
     latest_items_ai_dedup = dedupe_items_by_title_url(latest_items, random_pick=False)
     latest_items_all_dedup = dedupe_items_by_title_url(latest_items_all, random_pick=True)
 
