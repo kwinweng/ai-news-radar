@@ -14,7 +14,6 @@ const state = {
   categoryFilter: "",
   query: "",
   mode: "ai",
-  waytoagiMode: "today",
   waytoagiData: null,
   sourceStatus: null,
   generatedAt: null,
@@ -40,11 +39,6 @@ const allDedupeLabelEl = document.getElementById("allDedupeLabel");
 const advancedSummaryEl = document.getElementById("advancedSummary");
 const sourceHealthEl = document.getElementById("sourceHealth");
 
-const waytoagiUpdatedAtEl = document.getElementById("waytoagiUpdatedAt");
-const waytoagiMetaEl = document.getElementById("waytoagiMeta");
-const waytoagiListEl = document.getElementById("waytoagiList");
-const waytoagiTodayBtnEl = document.getElementById("waytoagiTodayBtn");
-const waytoagi7dBtnEl = document.getElementById("waytoagi7dBtn");
 const coverageStripEl = document.getElementById("coverageStrip");
 
 const SOURCE_KINDS = {
@@ -319,6 +313,18 @@ function renderCategoryFilters() {
     };
     categoryPillsEl.appendChild(btn);
   });
+
+  const waytoagiPill = document.createElement("button");
+  waytoagiPill.className = `category-pill waytoagi-pill ${state.categoryFilter === "waytoagi" ? "active" : ""}`;
+  waytoagiPill.type = "button";
+  waytoagiPill.textContent = "WaytoAGI 案例";
+  waytoagiPill.onclick = () => {
+    state.categoryFilter = "waytoagi";
+    renderModeSwitch();
+    renderCategoryFilters();
+    renderList();
+  };
+  categoryPillsEl.appendChild(waytoagiPill);
 }
 
 function renderModeSwitch() {
@@ -337,7 +343,9 @@ function renderModeSwitch() {
     modeHintEl.textContent = `全量 · ${state.allDedup ? "去重开" : "去重关"} · ${fmtNumber(allCount)} 条`;
     if (listTitleEl) listTitleEl.textContent = "全量增长雷达";
   }
-  if (state.categoryFilter && listTitleEl) {
+  if (state.categoryFilter === "waytoagi" && listTitleEl) {
+    listTitleEl.textContent = "WaytoAGI 案例与工具更新";
+  } else if (state.categoryFilter && listTitleEl) {
     const category = BUSINESS_CATEGORY_BY_ID.get(state.categoryFilter);
     if (category) listTitleEl.textContent = category.label;
   }
@@ -479,7 +487,69 @@ function renderGroupedBySiteAndSource(items) {
   newsListEl.appendChild(frag);
 }
 
+function renderWaytoagiTab() {
+  newsListEl.innerHTML = "";
+  const data = state.waytoagiData;
+  if (!data) {
+    const div = document.createElement("div");
+    div.className = "empty";
+    div.textContent = "WaytoAGI 数据加载中...";
+    newsListEl.appendChild(div);
+    return;
+  }
+  if (data.has_error) {
+    const div = document.createElement("div");
+    div.className = "waytoagi-error";
+    div.textContent = data.error || "WaytoAGI 数据加载失败";
+    newsListEl.appendChild(div);
+    return;
+  }
+  const items = Array.isArray(data.updates_7d) ? data.updates_7d.slice(0, 5) : [];
+  const header = document.createElement("div");
+  header.className = "waytoagi-tab-header";
+  const label = document.createElement("span");
+  label.textContent = `近 7 日更新 · 共 ${fmtNumber(data.count_7d || data.updates_7d?.length || 0)} 篇`;
+  const viewAll = document.createElement("a");
+  viewAll.href = data.root_url || "#";
+  viewAll.target = "_blank";
+  viewAll.rel = "noopener noreferrer";
+  viewAll.className = "waytoagi-viewall";
+  viewAll.textContent = "查看全部 →";
+  header.append(label, viewAll);
+  newsListEl.appendChild(header);
+  if (!items.length) {
+    const div = document.createElement("div");
+    div.className = "waytoagi-empty";
+    div.textContent = "近 7 日暂无更新";
+    newsListEl.appendChild(div);
+    return;
+  }
+  const list = document.createElement("div");
+  list.className = "waytoagi-list";
+  items.forEach((u) => {
+    const row = document.createElement("a");
+    row.className = "waytoagi-item";
+    row.href = u.url || "#";
+    row.target = "_blank";
+    row.rel = "noopener noreferrer";
+    const dateEl = document.createElement("span");
+    dateEl.className = "d";
+    dateEl.textContent = fmtDate(u.date);
+    const titleEl = document.createElement("span");
+    titleEl.className = "t";
+    titleEl.textContent = u.title;
+    row.append(dateEl, titleEl);
+    list.appendChild(row);
+  });
+  newsListEl.appendChild(list);
+}
+
 function renderList() {
+  if (state.categoryFilter === "waytoagi") {
+    renderWaytoagiTab();
+    resultCountEl.textContent = "5 条";
+    return;
+  }
   const filtered = getFilteredItems();
   resultCountEl.textContent = `${fmtNumber(filtered.length)} 条`;
 
@@ -501,82 +571,6 @@ function renderList() {
   renderGroupedBySiteAndSource(filtered);
 }
 
-function waytoagiViews(waytoagi) {
-  const updates7d = Array.isArray(waytoagi?.updates_7d) ? waytoagi.updates_7d : [];
-  const latestDate = waytoagi?.latest_date || (updates7d.length ? updates7d[0].date : null);
-  const updatesToday = Array.isArray(waytoagi?.updates_today) && waytoagi.updates_today.length
-    ? waytoagi.updates_today
-    : (latestDate ? updates7d.filter((u) => u.date === latestDate) : []);
-  return { updates7d, updatesToday, latestDate };
-}
-
-function renderWaytoagi(waytoagi) {
-  const { updates7d, updatesToday, latestDate } = waytoagiViews(waytoagi);
-  if (waytoagiTodayBtnEl) waytoagiTodayBtnEl.classList.toggle("active", state.waytoagiMode === "today");
-  if (waytoagi7dBtnEl) waytoagi7dBtnEl.classList.toggle("active", state.waytoagiMode === "7d");
-  waytoagiUpdatedAtEl.textContent = `更新时间：${fmtTime(waytoagi.generated_at)}`;
-
-  waytoagiMetaEl.innerHTML = "";
-  const rootLink = document.createElement("a");
-  rootLink.href = waytoagi.root_url || "#";
-  rootLink.target = "_blank";
-  rootLink.rel = "noopener noreferrer";
-  rootLink.textContent = "主页面";
-  const historyLink = document.createElement("a");
-  historyLink.href = waytoagi.history_url || "#";
-  historyLink.target = "_blank";
-  historyLink.rel = "noopener noreferrer";
-  historyLink.textContent = "历史更新页";
-  const todayCount = document.createElement("span");
-  todayCount.textContent = `最近更新日(${latestDate || "--"})：${fmtNumber(waytoagi.count_today || updatesToday.length)} 条`;
-  const weekCount = document.createElement("span");
-  weekCount.textContent = `近 7 日：${fmtNumber(waytoagi.count_7d || updates7d.length)} 条`;
-  [rootLink, "·", historyLink, "·", todayCount, "·", weekCount].forEach((part) => {
-    if (typeof part === "string") {
-      const sep = document.createElement("span");
-      sep.textContent = part;
-      waytoagiMetaEl.appendChild(sep);
-    } else {
-      waytoagiMetaEl.appendChild(part);
-    }
-  });
-
-  waytoagiListEl.innerHTML = "";
-  if (waytoagi.has_error) {
-    const div = document.createElement("div");
-    div.className = "waytoagi-error";
-    div.textContent = waytoagi.error || "WaytoAGI 数据加载失败";
-    waytoagiListEl.appendChild(div);
-    return;
-  }
-
-  const updates = state.waytoagiMode === "today" ? updatesToday : updates7d;
-  if (!updates.length) {
-    const div = document.createElement("div");
-    div.className = "waytoagi-empty";
-    div.textContent = state.waytoagiMode === "today"
-      ? "最近更新日没有更新，可切换到近7日查看。"
-      : (waytoagi.warning || "近 7 日没有更新");
-    waytoagiListEl.appendChild(div);
-    return;
-  }
-
-  updates.forEach((u) => {
-    const row = document.createElement("a");
-    row.className = "waytoagi-item";
-    row.href = u.url || "#";
-    row.target = "_blank";
-    row.rel = "noopener noreferrer";
-    const dateEl = document.createElement("span");
-    dateEl.className = "d";
-    dateEl.textContent = fmtDate(u.date);
-    const titleEl = document.createElement("span");
-    titleEl.className = "t";
-    titleEl.textContent = u.title;
-    row.append(dateEl, titleEl);
-    waytoagiListEl.appendChild(row);
-  });
-}
 
 function renderMetric(label, value, tone = "") {
   const node = document.createElement("div");
@@ -748,11 +742,10 @@ async function init() {
 
   if (waytoagiResult.status === "fulfilled") {
     state.waytoagiData = waytoagiResult.value;
-    renderWaytoagi(state.waytoagiData);
   } else {
-    waytoagiUpdatedAtEl.textContent = "加载失败";
-    waytoagiListEl.innerHTML = `<div class="waytoagi-error">${waytoagiResult.reason.message}</div>`;
+    state.waytoagiData = { has_error: true, error: waytoagiResult.reason.message };
   }
+  if (state.categoryFilter === "waytoagi") renderList();
 }
 
 searchInputEl.addEventListener("input", (e) => {
@@ -813,20 +806,6 @@ if (allDedupeToggleEl) {
     renderCategoryFilters();
     renderSiteFilters();
     renderList();
-  });
-}
-
-if (waytoagiTodayBtnEl) {
-  waytoagiTodayBtnEl.addEventListener("click", () => {
-    state.waytoagiMode = "today";
-    if (state.waytoagiData) renderWaytoagi(state.waytoagiData);
-  });
-}
-
-if (waytoagi7dBtnEl) {
-  waytoagi7dBtnEl.addEventListener("click", () => {
-    state.waytoagiMode = "7d";
-    if (state.waytoagiData) renderWaytoagi(state.waytoagiData);
   });
 }
 
