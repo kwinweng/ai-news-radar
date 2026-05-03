@@ -2230,6 +2230,16 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
             "openai", "anthropic", "deepmind", "model", "models", "llm", "api",
             "agent platform", "agent平台", "模型", "大模型", "多模态", "推理模型",
             "上下文", "token", "fine-tuning", "finetune", "微调", "平台更新",
+            # expanded keywords
+            "语言模型", "llama", "mistral", "文心", "星火", "混元", "grok",
+            "copilot", "推理", "inference", "训练", "fine-tun", "multimodal",
+            "embedding", "rag", "检索增强", "智能体", "agent", "权重", "weights",
+            "benchmark", "评测", "上下文窗口", "context window", "foundation model",
+            "基础模型", "预训练", "pretrain", "transformer", "扩散模型", "diffusion",
+            "stable diffusion", "midjourney", "sora", "dall-e", "imagen", "whisper",
+            "tts", "asr", "语音识别", "文字转语音", "向量", "vector", "知识图谱",
+            "google deepmind", "meta ai", "mistral ai", "cohere", "hugging face",
+            "huggingface",
         ],
     },
     "product_trends": {
@@ -2239,6 +2249,15 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
             "workspace", "app", "应用", "copilot", "assistant", "chatbot",
             "交互", "体验", "用户", "版本", "release", "launch", "pricing",
             "subscription", "feature", "features",
+            # expanded keywords
+            "新功能", "功能更新", "产品发布", "v2", "v3", "迭代", "插件",
+            "extension", "集成", "integration", "助手", "聊天机器人", "写作助手",
+            "代码助手", "效率工具", "productivity", "自动化", "automation",
+            "no-code", "low-code", "低代码", "无代码", "工作流", "workflow",
+            "ocr", "文档处理", "document", "pdf", "ppt", "excel", "表格",
+            "知识库", "搜索增强", "浏览器插件", "chrome extension", "vscode",
+            "ide", "cursor", "notion", "飞书", "钉钉", "企业微信", "slack",
+            "zoom", "figma", "canva",
         ],
     },
     "growth_commercial": {
@@ -2248,6 +2267,14 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
             "私域", "社群", "渠道", "营销", "广告", "投放", "裂变", "复购",
             "gmv", "营收", "monetization", "growth", "retention", "conversion",
             "acquisition", "marketing", "sales",
+            # expanded keywords
+            "商业模式", "盈利", "收入", "roi", "arpu", "ltv", "cac",
+            "用户增长", "dau", "mau", "留存率", "转化率", "付费率", "订阅制",
+            "freemium", "定价策略", "价格", "免费", "收费", "企业版", "pro版",
+            "premium", "增长黑客", "流量", "广告投放", "sem", "seo",
+            "内容营销", "kol", "koc", "出海", "海外市场", "全球化", "本地化",
+            "b2b", "b2c", "tob", "toc", "saas", "paas", "api经济",
+            "生态合作", "渠道分销",
         ],
     },
     "industry_insight": {
@@ -2257,6 +2284,14 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
             "创业", "公司", "市场", "赛道", "竞争", "企业采用", "采用率",
             "forecast", "funding", "startup", "startups", "market", "analysis",
             "report", "enterprise adoption", "venture", "investment",
+            # expanded keywords
+            "市场规模", "行业报告", "调研报告", "白皮书", "研究报告", "年报",
+            "季报", "分析师", "市场分析", "竞争格局", "政策", "监管", "法规",
+            "合规", "治理", "伦理", "隐私", "数据安全", "风险", "安全审查",
+            "备案", "许可", "欧盟", "ai act", "gdpr", "标准", "专利",
+            "知识产权", "ipo", "上市", "收购", "并购", "裁员", "招聘", "人才",
+            "算力", "芯片", "gpu", "nvidia", "英伟达", "amd", "intel",
+            "华为昇腾", "tpu", "数据中心", "能耗", "碳排放", "可持续",
         ],
     },
     "tooling_ops": {
@@ -2274,6 +2309,13 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
             "案例", "玩法", "复盘", "实践", "best practice", "最佳实践",
             "case study", "playbook", "campaign", "活动", "品牌", "标杆",
             "落地", "应用案例", "客户案例", "use case", "usecase",
+            # expanded keywords
+            "实战", "教程", "指南", "手把手", "step by step", "how to",
+            "如何用", "用ai", "ai帮", "实践分享", "经验总结", "踩坑", "避坑",
+            "技巧", "方法论", "应用场景", "客服机器人", "智能客服", "内容生成",
+            "营销文案", "代码生成", "自动化测试", "医疗ai", "教育ai", "法律ai",
+            "金融ai", "设计ai", "游戏ai", "电商ai", "制造ai", "农业ai",
+            "政务ai", "测评对比", "横向对比", "最佳实践", "成功案例", "项目复盘",
         ],
     },
     "other": {
