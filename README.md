@@ -1,8 +1,8 @@
-# AI Signal Board
+# AI Growth Radar
 
 中文 | [English](#english)
 
-高质量 AI/科技新闻聚合项目。普通用户直接打开网页看 24 小时 AI 信号；维护者可以 fork 后接入自己的 OPML/RSS；Codex / Claude Code 可以用项目内 Skill 继续添加信息源和优化产品。
+面向产品运营和增长运营团队的 AI 每日资讯看板。团队成员可以直接打开网页查看 24 小时 AI 信号，并按「模型与平台、产品趋势、增长与商业化、行业洞察、工具生态、案例玩法」快速筛选。维护者可以通过 OPML/RSS 接入团队订阅源；Codex / Claude Code 可以用项目内 Skill 继续添加信息源和优化产品。
 
 说明：本仓库已适配公开发布，**不会包含作者私有 RSS 订阅文件**。
 
@@ -12,14 +12,14 @@
 
 | 你想做什么 | 直接入口 |
 | --- | --- |
-| 我只是想看 AI 新闻 | 打开 `https://learnprompt.github.io/ai-news-radar/` |
-| 我想 fork 一个自己的版本 | 看下面的「1 分钟上手」和「GitHub 自动更新」 |
+| 我只是想看团队 AI 资讯 | 打开 GitHub Pages 站点 |
+| 我想接入团队 RSS | 看下面的「本地自定义 OPML」和「GitHub 自动更新」 |
 | 我想给 Codex / Claude Code 用 | 看 `skills/ai-news-radar/SKILL.md` 和 `docs/GPT_HANDOFF.md` |
 
 ### 1. 在线入口
 
 - 线上页面：
-  - `https://learnprompt.github.io/ai-news-radar/`
+  - 启用 GitHub Pages 后使用你的仓库 Pages 地址，例如 `https://kwinweng.github.io/ai-news-radar/`
 - 说明：
   - 日常查看请打开这个页面，不要直接打开 `data/latest-24h.json`
   - GitHub Actions 会持续更新 `data/*.json`，GitHub Pages 会展示最新页面
@@ -66,6 +66,7 @@ python -m http.server 8080
 - 9 个聚合源补充覆盖（TechURLs / Buzzing / Info Flow / BestBlogs / TopHub / Zeli / AI HubToday / AIbase / NewsNow）
 - OPML RSS 批量接入（私有文件 `feeds/follow.opml`，仓库提供模板 `feeds/follow.example.opml`）
 - 24h 双视图：`AI强相关` / `全量`
+- 团队业务分类：`模型与平台` / `产品趋势` / `增长与商业化` / `行业洞察` / `工具生态` / `案例玩法`
 - 全量模式去重开关
 - AI 模式默认去重
 - 覆盖雷达：源健康、今日覆盖池、AI精选、官方/日报源池、Builders/X源池、私人扩展
@@ -79,6 +80,15 @@ python -m http.server 8080
   - `failed_feeds` / `zero_item_feeds` / `skipped_feeds` / `replaced_feeds`
 
 ### 5. 覆盖范围
+
+团队版默认按产品运营和增长运营的阅读场景组织信息：
+
+- **模型与平台**：模型发布、API、Agent 平台、基础设施能力变化。
+- **产品趋势**：AI 产品形态、功能更新、定价、交互方式。
+- **增长与商业化**：获客、留存、付费转化、PLG、社群增长、内容增长。
+- **行业洞察**：融资、赛道格局、市场判断、企业 AI 采用、创业机会。
+- **工具生态**：适合产品、运营、增长团队使用的 AI 工具和自动化能力。
+- **案例玩法**：值得复盘的 AI 应用案例、营销案例、业务落地玩法。
 
 这个项目采用双层设计：
 
