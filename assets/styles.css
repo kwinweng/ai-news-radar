@@ -205,9 +205,17 @@ button {
 .primary-controls {
   margin-top: 16px;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) minmax(190px, 0.36fr) auto;
   gap: 12px;
   align-items: center;
+}
+
+.category-filter {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 12px;
 }
 
 input,
@@ -233,6 +241,30 @@ summary:focus-visible {
   color: var(--muted);
   font-size: 13px;
   white-space: nowrap;
+}
+
+.category-pills {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-pill {
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 11px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 12px;
+}
+
+.category-pill.active {
+  border-color: rgba(18, 106, 115, 0.5);
+  background: rgba(18, 106, 115, 0.1);
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .advanced-panel {
@@ -606,12 +638,43 @@ summary:focus-visible {
   color: #3f3d39;
 }
 
+.business-category,
 .category,
 .source {
   padding: 2px 7px;
   border: 1px solid var(--line);
   border-radius: 999px;
   font-size: 11px;
+}
+
+.business-category {
+  border-color: rgba(18, 106, 115, 0.32);
+  color: var(--accent);
+  background: rgba(18, 106, 115, 0.06);
+}
+
+.business-growth_commercial,
+.business-case_playbooks {
+  border-color: rgba(181, 82, 49, 0.34);
+  color: var(--accent-warm);
+  background: rgba(181, 82, 49, 0.06);
+}
+
+.business-industry_insight {
+  border-color: rgba(154, 103, 0, 0.34);
+  color: var(--warn);
+  background: rgba(154, 103, 0, 0.06);
+}
+
+.business-tooling_ops {
+  border-color: rgba(31, 122, 77, 0.34);
+  color: var(--good);
+  background: rgba(31, 122, 77, 0.06);
+}
+
+.business-other {
+  color: var(--muted);
+  background: var(--surface-soft);
 }
 
 .category {
