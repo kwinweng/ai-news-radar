@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI Signal Board</title>
+    <title>AI Growth Radar</title>
     <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./assets/styles.css" />
   </head>
@@ -14,12 +14,12 @@
           <div class="hero-headline">
             <img class="hero-logo" src="./assets/logo.svg" alt="AI Signal Board Logo" />
             <div>
-              <p class="hero-tag">AI NEWS INTELLIGENCE</p>
-              <h1>24 小时 AI 更新雷达</h1>
+              <p class="hero-tag">AI GROWTH INTELLIGENCE</p>
+              <h1>AI 增长情报雷达</h1>
             </div>
           </div>
           <p class="hero-sub">
-            高信号 AI/科技更新，附 WaytoAGI 近 7 日变化。
+            面向产品运营与增长运营团队的 24 小时 AI 资讯看板。
           </p>
         </div>
         <div class="hero-meta">
@@ -34,12 +34,20 @@
 
       <section class="primary-controls">
         <input id="searchInput" type="search" placeholder="搜索 AI 信号 / 来源" />
+        <label class="category-filter" for="categorySelect">
+          <span>分类</span>
+          <select id="categorySelect">
+            <option value="">全部业务分类</option>
+          </select>
+        </label>
         <div class="mode-hint" id="modeHint">AI强相关</div>
       </section>
 
+      <section class="category-pills" id="categoryPills" aria-label="Business category filters"></section>
+
       <details class="advanced-panel">
         <summary>
-          <span>高级筛选与源状态</span>
+              <span>源筛选与健康状态</span>
           <span class="advanced-summary" id="advancedSummary">加载中...</span>
         </summary>
         <div class="advanced-content">
@@ -70,7 +78,7 @@
 
       <section class="waytoagi-wrap">
         <div class="waytoagi-head">
-          <h2>WaytoAGI 更新日志</h2>
+          <h2>WaytoAGI 案例与工具更新</h2>
           <div class="waytoagi-tools">
             <div class="waytoagi-switch">
               <button id="waytoagiTodayBtn" class="waytoagi-btn active" type="button">最近更新日</button>
@@ -85,7 +93,7 @@
 
       <section class="list-wrap">
         <div class="list-head">
-          <h2 id="listTitle">AI 信号流</h2>
+          <h2 id="listTitle">AI 增长信号流</h2>
           <span id="resultCount">0 条</span>
         </div>
         <div id="newsList" class="news-list"></div>
@@ -96,6 +104,7 @@
       <article class="news-card">
         <div class="meta-row">
           <span class="site"></span>
+          <span class="business-category"></span>
           <span class="category"></span>
           <span class="source"></span>
           <time class="time"></time>
