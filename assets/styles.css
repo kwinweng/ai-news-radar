@@ -518,8 +518,7 @@ summary:focus-visible {
   font-weight: 700;
 }
 
-.list-wrap,
-.waytoagi-wrap {
+.list-wrap {
   margin-top: 16px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -527,8 +526,7 @@ summary:focus-visible {
   overflow: hidden;
 }
 
-.list-head,
-.waytoagi-head {
+.list-head {
   padding: 14px 16px;
   display: flex;
   justify-content: space-between;
@@ -539,13 +537,7 @@ summary:focus-visible {
 }
 
 .list-head h2,
-.waytoagi-head h2 {
-  margin: 0;
-  font-size: 20px;
-}
-
-#resultCount,
-#waytoagiUpdatedAt {
+#resultCount {
   color: var(--muted);
   font-size: 13px;
   white-space: nowrap;
@@ -737,52 +729,34 @@ summary:focus-visible {
   text-align: center;
 }
 
-.waytoagi-tools {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.waytoagi-switch {
-  display: inline-flex;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--surface);
-}
-
-.waytoagi-btn {
-  min-height: 32px;
-  border: 0;
-  border-left: 1px solid var(--line);
-  background: transparent;
-  color: var(--muted);
-  padding: 0 10px;
-  font-size: 12px;
-}
-
-.waytoagi-btn:first-child {
-  border-left: 0;
-}
-
-.waytoagi-btn.active {
-  background: var(--accent);
-  color: #fff;
-  font-weight: 700;
-}
-
-.waytoagi-meta {
-  padding: 12px 16px 0;
+.waytoagi-tab-header {
+  padding: 10px 16px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  justify-content: space-between;
+  align-items: center;
   font-size: 12px;
   color: var(--muted);
+  border-bottom: 1px solid var(--line);
 }
 
-.waytoagi-meta a {
+.waytoagi-viewall {
   color: var(--accent);
   text-decoration: none;
+  font-size: 12px;
+}
+
+.waytoagi-viewall:hover {
+  text-decoration: underline;
+}
+
+.waytoagi-pill {
+  border-color: rgba(18, 106, 115, 0.4) !important;
+}
+
+.waytoagi-pill.active {
+  border-color: rgba(18, 106, 115, 0.5) !important;
+  background: rgba(18, 106, 115, 0.1) !important;
+  color: var(--accent) !important;
 }
 
 .waytoagi-list {
@@ -841,8 +815,7 @@ summary:focus-visible {
 
   .hero,
   .primary-controls,
-  .advanced-controls,
-  .waytoagi-head {
+  .advanced-controls {
     grid-template-columns: 1fr;
   }
 
@@ -872,8 +845,7 @@ summary:focus-visible {
 
   .mode-hint,
   .advanced-summary,
-  #resultCount,
-  #waytoagiUpdatedAt {
+  #resultCount {
     white-space: normal;
   }
 
@@ -881,10 +853,6 @@ summary:focus-visible {
     margin-left: 0;
   }
 
-  .waytoagi-head {
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
 
 @media (max-width: 460px) {
@@ -896,10 +864,5 @@ summary:focus-visible {
   .coverage-strip,
   .health-grid {
     grid-template-columns: 1fr;
-  }
-
-  .waytoagi-tools {
-    align-items: flex-start;
-    flex-direction: column;
   }
 }
