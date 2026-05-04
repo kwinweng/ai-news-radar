@@ -22,7 +22,6 @@ const state = {
 const statsEl = document.getElementById("stats");
 const siteSelectEl = document.getElementById("siteSelect");
 const sitePillsEl = document.getElementById("sitePills");
-const categorySelectEl = document.getElementById("categorySelect");
 const categoryPillsEl = document.getElementById("categoryPills");
 const newsListEl = document.getElementById("newsList");
 const updatedAtEl = document.getElementById("updatedAt");
@@ -274,17 +273,6 @@ function categoryStats() {
 
 function renderCategoryFilters() {
   const stats = categoryStats();
-
-  if (categorySelectEl) {
-    categorySelectEl.innerHTML = '<option value="">全部业务分类</option>';
-    stats.forEach((category) => {
-      const opt = document.createElement("option");
-      opt.value = category.id;
-      opt.textContent = `${category.label} (${fmtNumber(category.count)})`;
-      categorySelectEl.appendChild(opt);
-    });
-    categorySelectEl.value = state.categoryFilter;
-  }
 
   if (!categoryPillsEl) return;
   categoryPillsEl.innerHTML = "";
@@ -759,15 +747,6 @@ siteSelectEl.addEventListener("change", (e) => {
   renderCategoryFilters();
   renderList();
 });
-
-if (categorySelectEl) {
-  categorySelectEl.addEventListener("change", (e) => {
-    state.categoryFilter = e.target.value;
-    renderModeSwitch();
-    renderCategoryFilters();
-    renderList();
-  });
-}
 
 modeAiBtnEl.addEventListener("click", () => {
   state.mode = "ai";
