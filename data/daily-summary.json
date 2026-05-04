@@ -1,12 +1,18 @@
 {
-  "generated_at": "2026-05-04T14:26:14Z",
+  "generated_at": "2026-05-04T15:11:15Z",
   "period": "24h",
-  "total_ai_items": 220,
+  "total_ai_items": 225,
   "by_category": {
     "models_platforms": {
       "label": "模型与平台",
-      "count": 54,
+      "count": 56,
       "top_items": [
+        {
+          "title": "CoreWeave与Anthropic达成的交易具有颠覆性——AI基础设施领域竞争日趋白热化",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/coreweave-anthropic-deal-game-changing-141649771.html",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T14:36:20.327000Z"
+        },
         {
           "title": "在马斯克发布关于和解的短信后，OpenAI的布罗克曼将出庭作证",
           "url": "https://www.bloomberg.com/news/articles/2026-05-04/openai-s-brockman-to-testify-after-musk-s-text-about-settlement",
@@ -14,16 +20,10 @@
           "published_at": "2026-05-04T14:04:10.659000Z"
         },
         {
-          "title": "《华尔街日报》报道称，Anthropic即将与华尔街多家公司成立一家估值近15亿美元的人工智能合资企业 - Reuters",
-          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOVE1KSnhHTjJYWGNSUEpEdDRFZlFoMTJXRzE3TE9XeDBlUzAySUNMTVFyWHhzaWo4aEs1YVJYSEZQNDRJYzh5OHRCdjZuSng1eEU2cmJaQTB5NVlndmRJT2V5TkZHb1Qxbmh2VlFzTUZyenZGUlg4bDJlNEJ2ZzBnNTBUaGZzRFVOVTNNMzE0dkdqdG1jdkloU0h0NjhVeUxhMU1kRm9Ma0gwMnhUNC10RHlzUkYySU5QSTVVRkZkbDhNbThpaHNtQThDY2hkM3c?oc=5&hl=en-US&gl=US&ceid=US%3Aen",
-          "site_name": "Buzzing",
-          "published_at": "2026-05-04T13:48:05.035000Z"
-        },
-        {
-          "title": "Claude Code 指令入门教程",
-          "url": "https://juejin.cn/post/7635480534214852660",
-          "site_name": "NewsNow",
-          "published_at": "2026-05-04T13:46:50.913000Z"
+          "title": "OpenAI closes The Deployment Company, a $10bn enterprise AI bet on private equity",
+          "url": "https://thenextweb.com/news/openai-deployco-finalized-10-billion-joint-venture",
+          "site_name": "TechURLs",
+          "published_at": "2026-05-04T13:55:51Z"
         }
       ]
     },
@@ -47,7 +47,7 @@
     },
     "growth_commercial": {
       "label": "增长与商业化",
-      "count": 8,
+      "count": 9,
       "top_items": [
         {
           "title": "人工智能驱动的广告定价或将推动Meta股价逼近1000美元",
@@ -56,16 +56,16 @@
           "published_at": "2026-05-04T13:48:05.130000Z"
         },
         {
+          "title": "Palantir’s earnings test arrives in the middle of an AI software sell-off",
+          "url": "https://thenextweb.com/news/palantir-q1-2026-earnings-software-selloff",
+          "site_name": "TechURLs",
+          "published_at": "2026-05-04T13:24:03Z"
+        },
+        {
           "title": "豆包将在免费模式外新增付费订阅，推出三档月包/年包价格｜最前线",
           "url": "https://36kr.com/p/3794799114476809?f=rss",
           "site_name": "36氪·AI",
           "published_at": "2026-05-04T09:49:40Z"
-        },
-        {
-          "title": "Can Investors Trust AI Sales Figures? Asks Wall Street Journal Opinion Piece",
-          "url": "https://slashdot.org/story/26/05/03/1721250/can-investors-trust-ai-sales-figures-asks-wall-street-journal-opinion-piece",
-          "site_name": "Info Flow",
-          "published_at": "2026-05-04T07:34:00Z"
         }
       ]
     },
@@ -98,29 +98,35 @@
       "count": 32,
       "top_items": [
         {
+          "title": "Show HN: Rudel – 克劳德·科德 / Codex 系列揭示了 9 种 AI 程序员",
+          "url": "https://app.rudel.ai/wrapped",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T14:36:16.631000Z"
+        },
+        {
           "title": "英国警方扩大 AI 人脸识别应用，利用手机等设备实时比对数据库确认人员身份",
           "url": "https://www.ithome.com/0/946/317.htm",
           "site_name": "Info Flow",
           "published_at": "2026-05-04T14:20:38Z"
         },
         {
-          "title": "视频分享应用Vine强势回归——正与AI垃圾内容作斗争",
-          "url": "https://www.theguardian.com/technology/2026/may/04/vine-video-sharing-back-battling-ai-slop-divine",
+          "title": "人工智能时代最重要的技能是什么？沃顿商学院专家表示：品味",
+          "url": "https://www.businessinsider.com/ethan-mollick-ai-expert-wharton-taste-skills-ai-2026-5",
           "site_name": "Buzzing",
-          "published_at": "2026-05-04T14:04:10.476000Z"
-        },
-        {
-          "title": "PyInfra 3.8.0 Is Out",
-          "url": "https://github.com/pyinfra-dev/pyinfra/releases/tag/v3.8.0",
-          "site_name": "Zeli",
-          "published_at": "2026-05-04T12:53:46Z"
+          "published_at": "2026-05-04T14:20:23.710000Z"
         }
       ]
     },
     "industry_insight": {
       "label": "行业洞察",
-      "count": 22,
+      "count": 24,
       "top_items": [
+        {
+          "title": "五角大楼与人工智能公司达成协议后，不妨买入这些20美元以下的股票",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/pentagon-inks-deal-ai-firms-141044803.html",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T14:36:20.308000Z"
+        },
         {
           "title": "加密货币投资者霍恩为新基金筹集10亿美元，业务拓展至人工智能代理领域",
           "url": "https://www.bloomberg.com/news/articles/2026-05-04/crypto-investor-haun-raises-1-billion-for-funds-expands-to-ai-agents",
@@ -132,16 +138,10 @@
           "url": "https://finance.yahoo.com/sectors/technology/articles/sap-acquires-dremio-power-enterprise-134836894.html",
           "site_name": "Buzzing",
           "published_at": "2026-05-04T14:04:10.592000Z"
-        },
-        {
-          "title": "AI进入影视，从下沉市场开始反攻",
-          "url": "https://www.huxiu.com/article/4855681.html?f=rss",
-          "site_name": "Info Flow",
-          "published_at": "2026-05-04T14:02:44Z"
         }
       ]
     }
   },
-  "summary_text": "过去 24 小时共收录 220 条 AI 强相关资讯。模型与平台 54 条、案例玩法 2 条、增长与商业化 8 条、工具生态 12 条、产品趋势 32 条、行业洞察 22 条。",
+  "summary_text": "过去 24 小时共收录 225 条 AI 强相关资讯。模型与平台 56 条、案例玩法 2 条、增长与商业化 9 条、工具生态 12 条、产品趋势 32 条、行业洞察 24 条。",
   "llm_enhanced": false
 }
