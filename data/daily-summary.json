@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-05-04T13:37:07Z",
+  "generated_at": "2026-05-04T13:47:25Z",
   "period": "24h",
-  "total_ai_items": 193,
+  "total_ai_items": 187,
   "by_category": {
     "models_platforms": {
       "label": "模型与平台",
-      "count": 71,
+      "count": 51,
       "top_items": [
+        {
+          "title": "Claude Code 指令入门教程",
+          "url": "https://juejin.cn/post/7635480534214852660",
+          "site_name": "NewsNow",
+          "published_at": "2026-05-04T13:46:50.913000Z"
+        },
+        {
+          "title": "OpenAI is making ChatGPT accounts much more secure – including some literal physical security keys",
+          "url": "https://www.techradar.com/pro/openai-is-making-chatgpt-accounts-much-more-secure-including-some-literal-physical-security-keys",
+          "site_name": "TechURLs",
+          "published_at": "2026-05-04T13:20:00Z"
+        },
         {
           "title": "高盛、黑石与Anthropic合作成立人工智能服务公司",
           "url": "https://www.bloomberg.com/news/articles/2026-05-04/goldman-blackstone-partner-with-anthropic-on-ai-services-firm",
           "site_name": "Buzzing",
           "published_at": "2026-05-04T13:15:54.752000Z"
-        },
-        {
-          "title": "一个独立开发者，靠一份 markdown 驱动 Claude Code， 用 20 天跑通 9 个包的 monorepo 工程",
-          "url": "https://juejin.cn/post/7634746466925543430",
-          "site_name": "NewsNow",
-          "published_at": "2026-05-04T13:14:26.920000Z"
-        },
-        {
-          "title": "Claude Code的Skills实践及利器推荐：工欲善其事，必先利其器",
-          "url": "https://juejin.cn/post/7634445388811419711",
-          "site_name": "NewsNow",
-          "published_at": "2026-05-04T13:14:26.920000Z"
         }
       ]
     },
@@ -47,7 +47,7 @@
     },
     "growth_commercial": {
       "label": "增长与商业化",
-      "count": 5,
+      "count": 3,
       "top_items": [
         {
           "title": "Can Investors Trust AI Sales Figures? Asks Wall Street Journal Opinion Piece",
@@ -71,7 +71,7 @@
     },
     "tooling_ops": {
       "label": "工具生态",
-      "count": 8,
+      "count": 12,
       "top_items": [
         {
           "title": "解决 4 大 AI 编码痛点：Matt Pocock 的 Skill 工作流深度拆解",
@@ -86,16 +86,16 @@
           "published_at": "2026-05-04T13:14:26.920000Z"
         },
         {
-          "title": "Enzo Health, whose AI tools help home health and hospice agencies automate tasks like patient intake and documentation review, raised a $20M Series A led by N47 (Brock E.W. Turner/Axios)",
-          "url": "https://www.techmeme.com/260504/p12",
+          "title": "Doordash adds AI tools to speed up merchant onboarding, edit photos of dishes",
+          "url": "https://techcrunch.com/2026/05/04/doordash-adds-ai-tools-to-speed-up-merchant-onboarding-edit-photos-of-dishes",
           "site_name": "TechURLs",
-          "published_at": "2026-05-04T12:35:01Z"
+          "published_at": "2026-05-04T13:00:00Z"
         }
       ]
     },
     "product_trends": {
       "label": "产品趋势",
-      "count": 35,
+      "count": 31,
       "top_items": [
         {
           "title": "PyInfra 3.8.0 Is Out",
@@ -104,44 +104,44 @@
           "published_at": "2026-05-04T12:53:46Z"
         },
         {
+          "title": "Show HN: 《PDF to AI》播客（提供9种印度语言版本）",
+          "url": "https://n8n.io/workflows/15350-generate-two-host-pdf-podcasts-with-gpt-5-smallest-ai-and-gmail",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T12:43:57.431000Z"
+        },
+        {
           "title": "The most important skill in the AI era? Taste, says a Wharton expert",
           "url": "https://www.businessinsider.com/ethan-mollick-ai-expert-wharton-taste-skills-ai-2026-5",
           "site_name": "TechURLs",
           "published_at": "2026-05-04T11:55:08Z"
-        },
-        {
-          "title": "ASML's Best Selling Product Isn't What You Think It Is",
-          "url": "https://www.siliconimist.com/p/asmls-best-selling-product",
-          "site_name": "Zeli",
-          "published_at": "2026-05-04T11:08:22Z"
         }
       ]
     },
     "industry_insight": {
       "label": "行业洞察",
-      "count": 9,
+      "count": 14,
       "top_items": [
         {
-          "title": "We can realistically replicate human intelligence in AI: Here’s how we’ll achieve AGI",
-          "url": "https://www.techradar.com/pro/we-can-realistically-replicate-human-intelligence-in-ai-heres-how-well-achieve-agi",
-          "site_name": "TechURLs",
-          "published_at": "2026-05-04T10:30:38Z"
+          "title": "RadNet (RDNT) 因市场担忧人工智能可能带来的颠覆性影响而股价下跌",
+          "url": "https://finance.yahoo.com/sectors/healthcare/articles/radnet-rdnt-slid-concerns-over-131559654.html",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T13:32:07.857000Z"
         },
         {
-          "title": "Jensen Huang said Nvidia's market share of AI accelerators in China has \"now dropped to zero\" and that US export policy \"has already largely backfired\" (Anton Shilov/Tom's Hardware)",
-          "url": "https://www.techmeme.com/260504/p8",
-          "site_name": "TechURLs",
-          "published_at": "2026-05-04T09:45:44Z"
+          "title": "随着人工智能芯片需求激增，Cerebras计划在美国首次公开募股（IPO）中寻求266亿美元的估值 - Reuters",
+          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOM3JWZ1Zhb2twMlJzUTh0M1hNTHpIQlNxNTM4elZtdmhGbGxDSGRFNlpkLWVBVmllalFIZ1VFZmQ1WHY3UUtRX3Y5SmVUVnZIQVBqWWl5WjFSYUFkb1BUQmlTUjdvU2R6V0lXeWs2YkV0Nkdwa0JtVW9ka2J6TjVQaFUzRE04UXNQZWhpTDRmbzZJUzllYUNKeXk4d3NaZGsxWGZJb3VldHVHeDNpaHBRaWR2OA?oc=5&hl=en-US&gl=US&ceid=US%3Aen",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T13:32:07.810000Z"
         },
         {
-          "title": "GameStop makes $55.5B takeover offer for eBay",
-          "url": "https://www.bbc.co.uk/news/articles/cn0p8yled1do",
-          "site_name": "Zeli",
-          "published_at": "2026-05-04T09:31:12Z"
+          "title": "AI agents create new risks requiring continuous monitoring and oversight",
+          "url": "https://www.techradar.com/pro/ai-agents-create-new-risks-requiring-continuous-monitoring-and-oversight",
+          "site_name": "TechURLs",
+          "published_at": "2026-05-04T10:50:48Z"
         }
       ]
     }
   },
-  "summary_text": "过去 24 小时共收录 193 条 AI 强相关资讯。模型与平台 71 条、案例玩法 2 条、增长与商业化 5 条、工具生态 8 条、产品趋势 35 条、行业洞察 9 条。",
+  "summary_text": "过去 24 小时共收录 187 条 AI 强相关资讯。模型与平台 51 条、案例玩法 2 条、增长与商业化 3 条、工具生态 12 条、产品趋势 31 条、行业洞察 14 条。",
   "llm_enhanced": false
 }
