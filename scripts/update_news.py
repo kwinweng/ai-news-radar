@@ -71,6 +71,11 @@ RSS_FEED_SKIP_EXACT: set[str] = {
 
 OFFICIAL_AI_FEEDS: tuple[dict[str, str], ...] = (
     {
+        "title": "Anthropic News",
+        "xml_url": "https://www.anthropic.com/rss.xml",
+        "html_url": "https://www.anthropic.com/news",
+    },
+    {
         "title": "OpenAI News",
         "xml_url": "https://openai.com/news/rss.xml",
         "html_url": "https://openai.com/news",
@@ -107,6 +112,29 @@ OFFICIAL_AI_FEEDS: tuple[dict[str, str], ...] = (
         "include_keywords": "hatch,pet,migrate-to-codex",
     },
 )
+CHINESE_AI_RSS_FEEDS: tuple[dict[str, str], ...] = (
+    {
+        "title": "量子位",
+        "xml_url": "https://www.qbitai.com/feed",
+        "html_url": "https://www.qbitai.com",
+    },
+    {
+        "title": "机器之心",
+        "xml_url": "https://www.jiqizhixin.com/rss",
+        "html_url": "https://www.jiqizhixin.com",
+    },
+    {
+        "title": "36氪·AI",
+        "xml_url": "https://36kr.com/feed",
+        "html_url": "https://36kr.com/information/AI",
+    },
+    {
+        "title": "少数派",
+        "xml_url": "https://sspai.com/feed",
+        "html_url": "https://sspai.com",
+    },
+)
+
 OFFICIAL_AI_MAX_AGE_DAYS = 45
 AIBREAKFAST_JINA_URL = "https://r.jina.ai/https://aibreakfast.beehiiv.com/"
 FOLLOW_BUILDERS_FEED_BASE = "https://raw.githubusercontent.com/zarazhangrui/follow-builders/main"
@@ -1012,6 +1040,10 @@ def fetch_tophub(session: requests.Session, now: datetime) -> list[RawItem]:
         board_name = maybe_fix_mojibake(board_name)
         source = f"{source_name} · {board_name}" if board_name else source_name
 
+        board_text = f"{source_name} {board_name}".lower()
+        if not any(k in board_text for k in TOPHUB_BOARD_ALLOWLIST):
+            continue
+
         for a in block.select(".cc-cd-cb-l a"):
             href = a.get("href", "").strip()
             row = a.select_one(".cc-cd-cb-ll")
@@ -1244,23 +1276,33 @@ def fetch_official_ai_updates(session: requests.Session, now: datetime) -> list[
         except Exception:
             continue
 
-    try:
-        r = session.get("https://www.anthropic.com/news", timeout=20)
-        r.raise_for_status()
-        out.extend(parse_anthropic_news_items(r.text, now))
-    except Exception:
-        pass
+    # HTML scrapers for Anthropic and OpenAI Codex changelog removed:
+    # replaced by RSS feeds in OFFICIAL_AI_FEEDS above.
 
-    try:
-        r = session.get("https://developers.openai.com/codex/changelog", timeout=20)
-        r.raise_for_status()
-        out.extend(parse_openai_codex_changelog_items(r.text, now))
-    except Exception:
-        pass
+    return out
 
-    if not out:
-        raise ValueError("No official AI update sources returned items")
 
+def fetch_chinese_ai_rss(session: requests.Session, now: datetime) -> list[RawItem]:
+    """Fetch from high-signal Chinese AI media RSS feeds."""
+    out: list[RawItem] = []
+    for feed in CHINESE_AI_RSS_FEEDS:
+        try:
+            items = fetch_feed_as_official_items(session, feed, now)
+            # Override site_id/site_name so each source appears separately
+            for item in items:
+                out.append(
+                    RawItem(
+                        site_id="chinese_ai_media",
+                        site_name=feed["title"],
+                        source=item.source,
+                        title=item.title,
+                        url=item.url,
+                        published_at=item.published_at,
+                        meta=item.meta,
+                    )
+                )
+        except Exception:
+            continue
     return out
 
 
@@ -1816,16 +1858,14 @@ def fetch_newsnow(session: requests.Session, now: datetime) -> list[RawItem]:
 def collect_all(session: requests.Session, now: datetime) -> tuple[list[RawItem], list[dict[str, Any]]]:
     tasks = [
         ("official_ai", "Official AI Updates", fetch_official_ai_updates),
+        ("chinese_ai_rss", "中文AI媒体", fetch_chinese_ai_rss),
         ("aibreakfast", "AI Breakfast", fetch_ai_breakfast),
         ("followbuilders", "Follow Builders", fetch_follow_builders),
         ("techurls", "TechURLs", fetch_techurls),
         ("buzzing", "Buzzing", fetch_buzzing),
         ("iris", "Info Flow", fetch_iris),
-        ("bestblogs", "BestBlogs", fetch_bestblogs),
         ("tophub", "TopHub", fetch_tophub),
         ("zeli", "Zeli", fetch_zeli),
-        ("aihubtoday", "AI HubToday", fetch_ai_hubtoday),
-        ("aibase", "AIbase", fetch_aibase),
         ("newsnow", "NewsNow", fetch_newsnow),
     ]
 
@@ -2183,6 +2223,12 @@ COMMERCE_NOISE_KEYWORDS = [
 EN_SIGNAL_RE = re.compile(
     r"(?i)(?<![a-z0-9])(ai|aigc|llm|gpt|openai|anthropic|deepseek|gemini|claude|robot|robotics|embodied|autonomous|machine learning|artificial intelligence|transformer|diffusion|agent)(?![a-z0-9])"
 )
+
+TOPHUB_BOARD_ALLOWLIST = [
+    "科技", "人工智能", "ai", "机器学习", "开发者", "程序员",
+    "github", "hacker news", "v2ex", "infoq", "少数派", "36氪",
+    "量子位", "机器之心", "产品", "互联网", "创业", "数字",
+]
 
 TOPHUB_ALLOW_KEYWORDS = [
     "readhub · ai",
