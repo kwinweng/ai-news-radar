@@ -1,29 +1,29 @@
 {
-  "generated_at": "2026-05-04T13:47:25Z",
+  "generated_at": "2026-05-04T14:26:14Z",
   "period": "24h",
-  "total_ai_items": 187,
+  "total_ai_items": 220,
   "by_category": {
     "models_platforms": {
       "label": "模型与平台",
-      "count": 51,
+      "count": 54,
       "top_items": [
+        {
+          "title": "在马斯克发布关于和解的短信后，OpenAI的布罗克曼将出庭作证",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-04/openai-s-brockman-to-testify-after-musk-s-text-about-settlement",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T14:04:10.659000Z"
+        },
+        {
+          "title": "《华尔街日报》报道称，Anthropic即将与华尔街多家公司成立一家估值近15亿美元的人工智能合资企业 - Reuters",
+          "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxOVE1KSnhHTjJYWGNSUEpEdDRFZlFoMTJXRzE3TE9XeDBlUzAySUNMTVFyWHhzaWo4aEs1YVJYSEZQNDRJYzh5OHRCdjZuSng1eEU2cmJaQTB5NVlndmRJT2V5TkZHb1Qxbmh2VlFzTUZyenZGUlg4bDJlNEJ2ZzBnNTBUaGZzRFVOVTNNMzE0dkdqdG1jdkloU0h0NjhVeUxhMU1kRm9Ma0gwMnhUNC10RHlzUkYySU5QSTVVRkZkbDhNbThpaHNtQThDY2hkM3c?oc=5&hl=en-US&gl=US&ceid=US%3Aen",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T13:48:05.035000Z"
+        },
         {
           "title": "Claude Code 指令入门教程",
           "url": "https://juejin.cn/post/7635480534214852660",
           "site_name": "NewsNow",
           "published_at": "2026-05-04T13:46:50.913000Z"
-        },
-        {
-          "title": "OpenAI is making ChatGPT accounts much more secure – including some literal physical security keys",
-          "url": "https://www.techradar.com/pro/openai-is-making-chatgpt-accounts-much-more-secure-including-some-literal-physical-security-keys",
-          "site_name": "TechURLs",
-          "published_at": "2026-05-04T13:20:00Z"
-        },
-        {
-          "title": "高盛、黑石与Anthropic合作成立人工智能服务公司",
-          "url": "https://www.bloomberg.com/news/articles/2026-05-04/goldman-blackstone-partner-with-anthropic-on-ai-services-firm",
-          "site_name": "Buzzing",
-          "published_at": "2026-05-04T13:15:54.752000Z"
         }
       ]
     },
@@ -47,25 +47,25 @@
     },
     "growth_commercial": {
       "label": "增长与商业化",
-      "count": 3,
+      "count": 8,
       "top_items": [
+        {
+          "title": "人工智能驱动的广告定价或将推动Meta股价逼近1000美元",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/ai-driven-ad-pricing-could-132344816.html",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T13:48:05.130000Z"
+        },
+        {
+          "title": "豆包将在免费模式外新增付费订阅，推出三档月包/年包价格｜最前线",
+          "url": "https://36kr.com/p/3794799114476809?f=rss",
+          "site_name": "36氪·AI",
+          "published_at": "2026-05-04T09:49:40Z"
+        },
         {
           "title": "Can Investors Trust AI Sales Figures? Asks Wall Street Journal Opinion Piece",
           "url": "https://slashdot.org/story/26/05/03/1721250/can-investors-trust-ai-sales-figures-asks-wall-street-journal-opinion-piece",
           "site_name": "Info Flow",
           "published_at": "2026-05-04T07:34:00Z"
-        },
-        {
-          "title": "explainx ai - 探索并实现 AI 技能、智能代理、工具及 MCP 服务器的商业化",
-          "url": "https://www.producthunt.com/r/DNDZ6ADD5647SS",
-          "site_name": "Buzzing",
-          "published_at": "2026-05-04T07:07:57.796000Z"
-        },
-        {
-          "title": "This is why GBrain is open source. Why I run my own stack. The explosion in intelligence means building your own context is more important than ever. If you own and run your own prompts and your own data, then you ear...",
-          "url": "https://x.com/garrytan/status/2051110206466302136",
-          "site_name": "Follow Builders",
-          "published_at": "2026-05-04T01:22:35Z"
         }
       ]
     },
@@ -95,53 +95,53 @@
     },
     "product_trends": {
       "label": "产品趋势",
-      "count": 31,
+      "count": 32,
       "top_items": [
+        {
+          "title": "英国警方扩大 AI 人脸识别应用，利用手机等设备实时比对数据库确认人员身份",
+          "url": "https://www.ithome.com/0/946/317.htm",
+          "site_name": "Info Flow",
+          "published_at": "2026-05-04T14:20:38Z"
+        },
+        {
+          "title": "视频分享应用Vine强势回归——正与AI垃圾内容作斗争",
+          "url": "https://www.theguardian.com/technology/2026/may/04/vine-video-sharing-back-battling-ai-slop-divine",
+          "site_name": "Buzzing",
+          "published_at": "2026-05-04T14:04:10.476000Z"
+        },
         {
           "title": "PyInfra 3.8.0 Is Out",
           "url": "https://github.com/pyinfra-dev/pyinfra/releases/tag/v3.8.0",
           "site_name": "Zeli",
           "published_at": "2026-05-04T12:53:46Z"
-        },
-        {
-          "title": "Show HN: 《PDF to AI》播客（提供9种印度语言版本）",
-          "url": "https://n8n.io/workflows/15350-generate-two-host-pdf-podcasts-with-gpt-5-smallest-ai-and-gmail",
-          "site_name": "Buzzing",
-          "published_at": "2026-05-04T12:43:57.431000Z"
-        },
-        {
-          "title": "The most important skill in the AI era? Taste, says a Wharton expert",
-          "url": "https://www.businessinsider.com/ethan-mollick-ai-expert-wharton-taste-skills-ai-2026-5",
-          "site_name": "TechURLs",
-          "published_at": "2026-05-04T11:55:08Z"
         }
       ]
     },
     "industry_insight": {
       "label": "行业洞察",
-      "count": 14,
+      "count": 22,
       "top_items": [
         {
-          "title": "RadNet (RDNT) 因市场担忧人工智能可能带来的颠覆性影响而股价下跌",
-          "url": "https://finance.yahoo.com/sectors/healthcare/articles/radnet-rdnt-slid-concerns-over-131559654.html",
+          "title": "加密货币投资者霍恩为新基金筹集10亿美元，业务拓展至人工智能代理领域",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-04/crypto-investor-haun-raises-1-billion-for-funds-expands-to-ai-agents",
           "site_name": "Buzzing",
-          "published_at": "2026-05-04T13:32:07.857000Z"
+          "published_at": "2026-05-04T14:04:10.694000Z"
         },
         {
-          "title": "随着人工智能芯片需求激增，Cerebras计划在美国首次公开募股（IPO）中寻求266亿美元的估值 - Reuters",
-          "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOM3JWZ1Zhb2twMlJzUTh0M1hNTHpIQlNxNTM4elZtdmhGbGxDSGRFNlpkLWVBVmllalFIZ1VFZmQ1WHY3UUtRX3Y5SmVUVnZIQVBqWWl5WjFSYUFkb1BUQmlTUjdvU2R6V0lXeWs2YkV0Nkdwa0JtVW9ka2J6TjVQaFUzRE04UXNQZWhpTDRmbzZJUzllYUNKeXk4d3NaZGsxWGZJb3VldHVHeDNpaHBRaWR2OA?oc=5&hl=en-US&gl=US&ceid=US%3Aen",
+          "title": "SAP收购Dremio，以推动企业人工智能数据平台的发展",
+          "url": "https://finance.yahoo.com/sectors/technology/articles/sap-acquires-dremio-power-enterprise-134836894.html",
           "site_name": "Buzzing",
-          "published_at": "2026-05-04T13:32:07.810000Z"
+          "published_at": "2026-05-04T14:04:10.592000Z"
         },
         {
-          "title": "AI agents create new risks requiring continuous monitoring and oversight",
-          "url": "https://www.techradar.com/pro/ai-agents-create-new-risks-requiring-continuous-monitoring-and-oversight",
-          "site_name": "TechURLs",
-          "published_at": "2026-05-04T10:50:48Z"
+          "title": "AI进入影视，从下沉市场开始反攻",
+          "url": "https://www.huxiu.com/article/4855681.html?f=rss",
+          "site_name": "Info Flow",
+          "published_at": "2026-05-04T14:02:44Z"
         }
       ]
     }
   },
-  "summary_text": "过去 24 小时共收录 187 条 AI 强相关资讯。模型与平台 51 条、案例玩法 2 条、增长与商业化 3 条、工具生态 12 条、产品趋势 31 条、行业洞察 14 条。",
+  "summary_text": "过去 24 小时共收录 220 条 AI 强相关资讯。模型与平台 54 条、案例玩法 2 条、增长与商业化 8 条、工具生态 12 条、产品趋势 32 条、行业洞察 22 条。",
   "llm_enhanced": false
 }
