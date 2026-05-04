@@ -2608,6 +2608,77 @@ def build_latest_payloads(latest_payload: dict[str, Any]) -> tuple[dict[str, Any
     return slim_payload, all_payload
 
 
+def generate_daily_summary(items: list[dict[str, Any]]) -> dict[str, Any]:
+    """
+    Generate a template-based daily summary of AI-related news.
+
+    # LLM EXTENSION POINT: Replace summary_text generation with LLM call.
+    # Recommended approach:
+    #   - Set env var OPENAI_API_KEY (or ANTHROPIC_API_KEY)
+    #   - Build a prompt from top items per category
+    #   - Call API, store result in summary_text
+    #   - Set llm_enhanced = True
+    # Keep template fallback if API call fails.
+    """
+    now = datetime.now(tz=UTC)
+    cutoff = now - timedelta(hours=24)
+
+    # items are already AI-related (latest_items_ai_dedup); filter to last 24h by published_at
+    recent = [
+        item for item in items
+        if (parse_iso(item.get("published_at")) or datetime.min.replace(tzinfo=UTC)) >= cutoff
+    ]
+
+    # Count by business category ID
+    from collections import Counter
+    counts: Counter[str] = Counter(item.get("business_category", "other") for item in recent)
+
+    # Top 3 items per category sorted by published_at desc
+    by_category: dict[str, Any] = {}
+    for cat_id in BUSINESS_CATEGORY_ORDER:
+        cat_items = sorted(
+            [i for i in recent if i.get("business_category") == cat_id],
+            key=lambda x: parse_iso(x.get("published_at")) or datetime.min.replace(tzinfo=UTC),
+            reverse=True,
+        )[:3]
+        if cat_items:
+            label = str(BUSINESS_CATEGORIES[cat_id]["label"])
+            by_category[cat_id] = {
+                "label": label,
+                "count": counts.get(cat_id, 0),
+                "top_items": [
+                    {
+                        "title": i.get("title", ""),
+                        "url": i.get("url", ""),
+                        "site_name": i.get("site_name", ""),
+                        "published_at": i.get("published_at", ""),
+                    }
+                    for i in cat_items
+                ],
+            }
+
+    # Template-generated narrative
+    parts = []
+    for cat_id in BUSINESS_CATEGORY_ORDER:
+        c = counts.get(cat_id, 0)
+        if c > 0:
+            label = str(BUSINESS_CATEGORIES[cat_id]["label"])
+            parts.append(f"{label} {c} 条")
+
+    total = len(recent)
+    category_summary = "、".join(parts) + "。" if parts else ""
+    summary_text = f"过去 24 小时共收录 {total} 条 AI 强相关资讯。{category_summary}"
+
+    return {
+        "generated_at": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "period": "24h",
+        "total_ai_items": total,
+        "by_category": by_category,
+        "summary_text": summary_text,
+        "llm_enhanced": False,
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Aggregate AI news updates from multiple sources")
     parser.add_argument("--output-dir", default="data", help="Directory for output JSON files")
@@ -2876,6 +2947,12 @@ def main() -> int:
     status_path.write_text(json.dumps(sanitize_public_payload(status_payload), ensure_ascii=False, indent=2), encoding="utf-8")
     waytoagi_path.write_text(json.dumps(sanitize_public_payload(waytoagi_payload), ensure_ascii=False, indent=2), encoding="utf-8")
     title_cache_path.write_text(json.dumps(sanitize_public_payload(title_cache), ensure_ascii=False, indent=2), encoding="utf-8")
+
+    summary = generate_daily_summary(latest_items_ai_dedup)
+    summary_path = output_dir / "daily-summary.json"
+    with open(summary_path, "w", encoding="utf-8") as f:
+        json.dump(summary, f, ensure_ascii=False, indent=2)
+    print(f"Wrote daily summary: {summary['total_ai_items']} AI items in 24h")
 
     print(f"Wrote: {latest_path} ({len(latest_items)} items)")
     print(f"Wrote: {latest_all_path} ({len(latest_items_all_dedup)} all-mode items)")

@@ -686,7 +686,36 @@ async function loadSourceStatusData() {
   return res.json();
 }
 
+function formatSummaryTime(iso) {
+  try {
+    const d = new Date(iso);
+    const mm = String(d.getMonth() + 1).padStart(2, "0");
+    const dd = String(d.getDate()).padStart(2, "0");
+    const hh = String(d.getHours()).padStart(2, "0");
+    const min = String(d.getMinutes()).padStart(2, "0");
+    return `${mm}-${dd} ${hh}:${min}`;
+  } catch (_) {
+    return iso;
+  }
+}
+
+async function loadDailySummary() {
+  const summaryEl = document.getElementById("dailySummary");
+  const textEl = document.getElementById("summaryText");
+  const metaEl = document.getElementById("summaryMeta");
+  try {
+    const res = await fetch(`./data/daily-summary.json?t=${Date.now()}`);
+    if (!res.ok) throw new Error(`status ${res.status}`);
+    const data = await res.json();
+    textEl.textContent = data.summary_text;
+    metaEl.textContent = "更新于 " + formatSummaryTime(data.generated_at);
+  } catch (_) {
+    if (summaryEl) summaryEl.style.display = "none";
+  }
+}
+
 async function init() {
+  loadDailySummary();
   const [newsResult, waytoagiResult, statusResult] = await Promise.allSettled([
     loadNewsData(),
     loadWaytoagiData(),

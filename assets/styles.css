@@ -857,3 +857,35 @@ summary:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.daily-summary {
+  background: var(--surface, #1a1a2e);
+  border: 1px solid var(--border, #2a2a4a);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 0 0 12px;
+}
+.daily-summary .summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.daily-summary h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent, #7c6af7);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.daily-summary .summary-meta {
+  font-size: 11px;
+  color: var(--muted, #666);
+}
+.daily-summary .summary-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text, #e0e0e0);
+  margin: 0;
+}
