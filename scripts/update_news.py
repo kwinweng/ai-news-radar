@@ -2227,17 +2227,19 @@ BUSINESS_CATEGORIES: dict[str, dict[str, Any]] = {
         "label": "模型与平台",
         "keywords": [
             "gpt", "gpt-", "claude", "gemini", "deepseek", "qwen", "通义", "kimi",
-            "openai", "anthropic", "deepmind", "model", "models", "llm", "api",
+            "openai", "anthropic", "deepmind", "llm", "大语言模型",
             "agent platform", "agent平台", "模型", "大模型", "多模态", "推理模型",
-            "上下文", "token", "fine-tuning", "finetune", "微调", "平台更新",
-            # expanded keywords
+            "上下文", "fine-tuning", "finetune", "微调", "平台更新",
+            # expanded keywords — NOTE: removed bare "model","models","api","agent",
+            # "tts","asr","rag","vector","weights","inference","training","pretrain"
+            # as they are too short/generic and cause false positives in titles.
             "语言模型", "llama", "mistral", "文心", "星火", "混元", "grok",
-            "copilot", "推理", "inference", "训练", "fine-tun", "multimodal",
-            "embedding", "rag", "检索增强", "智能体", "agent", "权重", "weights",
-            "benchmark", "评测", "上下文窗口", "context window", "foundation model",
-            "基础模型", "预训练", "pretrain", "transformer", "扩散模型", "diffusion",
-            "stable diffusion", "midjourney", "sora", "dall-e", "imagen", "whisper",
-            "tts", "asr", "语音识别", "文字转语音", "向量", "vector", "知识图谱",
+            "copilot", "推理能力", "fine-tun", "multimodal",
+            "embedding向量", "检索增强", "智能体", "权重蒸馏",
+            "评测基准", "上下文窗口", "context window", "foundation model",
+            "基础模型", "transformer架构", "扩散模型", "diffusion model",
+            "stable diffusion", "midjourney", "sora", "dall-e", "imagen",
+            "语音识别", "文字转语音", "知识图谱",
             "google deepmind", "meta ai", "mistral ai", "cohere", "hugging face",
             "huggingface",
         ],
@@ -2340,9 +2342,12 @@ def contains_any_keyword(haystack: str, keywords: list[str]) -> bool:
 
 
 def classify_business_category(record: dict[str, Any]) -> dict[str, str]:
+    # Only match against human-readable title fields and source name.
+    # Exclude url: Google News encodes URLs as base64 (CBMi...) whose random
+    # characters cause false-positive keyword matches (e.g. "api", "model", "rag").
     text = " ".join(
         str(record.get(key) or "")
-        for key in ("title", "title_zh", "title_en", "source", "site_name", "url")
+        for key in ("title", "title_zh", "title_en", "source", "site_name")
     ).lower()
     for category_id in BUSINESS_CATEGORY_ORDER:
         meta = BUSINESS_CATEGORIES[category_id]
@@ -2423,8 +2428,9 @@ def is_ai_related_record(record: dict[str, Any]) -> bool:
     title = str(record.get("title") or "")
     source = str(record.get("source") or "")
     site_name = str(record.get("site_name") or "")
-    url = str(record.get("url") or "")
-    text = f"{title} {source} {site_name} {url}".lower()
+    # Exclude url: encoded Google News URLs (CBMi... base64) produce spurious
+    # keyword matches that let clearly non-AI articles pass the AI filter.
+    text = f"{title} {source} {site_name}".lower()
 
     # zeli 按需求只保留 Hacker News 24h 最热。
     if site_id == "zeli":
