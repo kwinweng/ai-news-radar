@@ -113,26 +113,41 @@ OFFICIAL_AI_FEEDS: tuple[dict[str, str], ...] = (
     },
 )
 CHINESE_AI_RSS_FEEDS: tuple[dict[str, str], ...] = (
-    {
-        "title": "量子位",
-        "xml_url": "https://www.qbitai.com/feed",
-        "html_url": "https://www.qbitai.com",
-    },
-    {
-        "title": "机器之心",
-        "xml_url": "https://www.jiqizhixin.com/rss",
-        "html_url": "https://www.jiqizhixin.com",
-    },
+    # 36氪 covers both Chinese AI industry & product news
     {
         "title": "36氪·AI",
         "xml_url": "https://36kr.com/feed",
         "html_url": "https://36kr.com/information/AI",
     },
+    # International AI media — verified reachable from GitHub Actions
     {
-        "title": "少数派",
-        "xml_url": "https://sspai.com/feed",
-        "html_url": "https://sspai.com",
+        "title": "The Verge·AI",
+        "xml_url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "html_url": "https://www.theverge.com/ai-artificial-intelligence",
     },
+    {
+        "title": "MIT Tech Review",
+        "xml_url": "https://www.technologyreview.com/feed/",
+        "html_url": "https://www.technologyreview.com/topic/artificial-intelligence/",
+    },
+    {
+        "title": "VentureBeat·AI",
+        "xml_url": "https://venturebeat.com/category/ai/feed/",
+        "html_url": "https://venturebeat.com/category/ai/",
+    },
+    {
+        "title": "Ars Technica",
+        "xml_url": "https://feeds.arstechnica.com/arstechnica/technology-lab",
+        "html_url": "https://arstechnica.com/gadgets/",
+    },
+    {
+        "title": "Microsoft AI Blog",
+        "xml_url": "https://blogs.microsoft.com/ai/feed/",
+        "html_url": "https://blogs.microsoft.com/ai/",
+    },
+    # NOTE: 量子位/机器之心/少数派 — no stable public RSS endpoint accessible
+    # from GitHub Actions (CDN block / no feed / returns HTML).
+    # Re-add if a reliable proxy or alternative URL is found.
 )
 
 OFFICIAL_AI_MAX_AGE_DAYS = 45
