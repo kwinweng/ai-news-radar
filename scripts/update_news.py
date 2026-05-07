@@ -151,8 +151,58 @@ CHINESE_AI_RSS_FEEDS: tuple[dict[str, str], ...] = (
 )
 
 OFFICIAL_AI_MAX_AGE_DAYS = 45
-AIBREAKFAST_JINA_URL = "https://r.jina.ai/https://aibreakfast.beehiiv.com/"
+AIBREAKFAST_RSS_URL = "https://aibreakfast.beehiiv.com/feed"
 FOLLOW_BUILDERS_FEED_BASE = "https://raw.githubusercontent.com/zarazhangrui/follow-builders/main"
+
+# Replaces scraper-based aggregators (TechURLs/Buzzing/TopHub/Zeli/NewsNow/InfoFlow)
+# that are blocked by Cloudflare on GitHub Actions IPs.
+AGGREGATOR_RSS_FEEDS: tuple[dict[str, str], ...] = (
+    {
+        "title": "TechCrunch AI",
+        "xml_url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "html_url": "https://techcrunch.com/ai/",
+    },
+    {
+        "title": "Wired AI",
+        "xml_url": "https://www.wired.com/feed/tag/ai/latest/rss",
+        "html_url": "https://www.wired.com/tag/artificial-intelligence/",
+    },
+    {
+        "title": "The Register AI",
+        "xml_url": "https://www.theregister.com/software/ai_ml/headlines.atom",
+        "html_url": "https://www.theregister.com/software/ai_ml/",
+    },
+    {
+        "title": "Hacker News",
+        "xml_url": "https://news.ycombinator.com/rss",
+        "html_url": "https://news.ycombinator.com/",
+    },
+    {
+        "title": "量子位",
+        "xml_url": "https://www.qbitai.com/feed",
+        "html_url": "https://www.qbitai.com/",
+    },
+    {
+        "title": "Reuters Technology",
+        "xml_url": "https://feeds.reuters.com/reuters/technologyNews",
+        "html_url": "https://www.reuters.com/technology/",
+    },
+    {
+        "title": "InfoQ AI",
+        "xml_url": "https://feed.infoq.com/ai-ml-data-eng",
+        "html_url": "https://www.infoq.com/ai-ml-data-eng/",
+    },
+    {
+        "title": "IEEE Spectrum AI",
+        "xml_url": "https://spectrum.ieee.org/feeds/topic/artificial-intelligence.rss",
+        "html_url": "https://spectrum.ieee.org/topic/artificial-intelligence/",
+    },
+    {
+        "title": "Import AI",
+        "xml_url": "https://importai.substack.com/feed",
+        "html_url": "https://importai.substack.com/",
+    },
+)
 
 
 @dataclass
@@ -1360,20 +1410,15 @@ def parse_ai_breakfast_items(markdown_text: str, now: datetime) -> list[RawItem]
 
 
 def fetch_ai_breakfast(session: requests.Session, now: datetime) -> list[RawItem]:
-    resp = session.get(
-        AIBREAKFAST_JINA_URL,
-        timeout=25,
-        headers={
-            "User-Agent": BROWSER_UA,
-            "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-            "Accept": "text/plain, */*",
-        },
-    )
-    resp.raise_for_status()
-    out = parse_ai_breakfast_items(resp.text, now)
-    if not out:
-        raise ValueError("No AI Breakfast items parsed")
-    return out
+    feed_cfg = {
+        "title": "AI Breakfast",
+        "xml_url": AIBREAKFAST_RSS_URL,
+        "html_url": "https://aibreakfast.beehiiv.com/",
+    }
+    items = fetch_feed_as_official_items(session, feed_cfg, now)
+    if not items:
+        raise ValueError("No AI Breakfast items parsed from RSS")
+    return items
 
 
 def parse_follow_builders_items(feeds: dict[str, dict[str, Any]], now: datetime) -> list[RawItem]:
@@ -1520,6 +1565,29 @@ def normalize_aihubtoday_records(items: list[dict[str, Any]]) -> list[dict[str, 
 
     keep.sort(key=lambda x: event_time(x) or datetime.min.replace(tzinfo=UTC), reverse=True)
     return keep
+
+
+def fetch_aggregator_rss(session: requests.Session, now: datetime) -> list[RawItem]:
+    """Stable RSS-based replacements for scraper aggregators blocked on GitHub Actions."""
+    out: list[RawItem] = []
+    for feed in AGGREGATOR_RSS_FEEDS:
+        try:
+            items = fetch_feed_as_official_items(session, feed, now)
+            for item in items:
+                out.append(
+                    RawItem(
+                        site_id="aggregator_rss",
+                        site_name=feed["title"],
+                        source=item.source,
+                        title=item.title,
+                        url=item.url,
+                        published_at=item.published_at,
+                        meta=item.meta,
+                    )
+                )
+        except Exception:
+            continue
+    return out
 
 
 def fetch_ai_hubtoday(session: requests.Session, now: datetime) -> list[RawItem]:
@@ -1876,12 +1944,7 @@ def collect_all(session: requests.Session, now: datetime) -> tuple[list[RawItem]
         ("chinese_ai_rss", "中文AI媒体", fetch_chinese_ai_rss),
         ("aibreakfast", "AI Breakfast", fetch_ai_breakfast),
         ("followbuilders", "Follow Builders", fetch_follow_builders),
-        ("techurls", "TechURLs", fetch_techurls),
-        ("buzzing", "Buzzing", fetch_buzzing),
-        ("iris", "Info Flow", fetch_iris),
-        ("tophub", "TopHub", fetch_tophub),
-        ("zeli", "Zeli", fetch_zeli),
-        ("newsnow", "NewsNow", fetch_newsnow),
+        ("aggregator_rss", "Tech RSS Feeds", fetch_aggregator_rss),
     ]
 
     raw_items: list[RawItem] = []
